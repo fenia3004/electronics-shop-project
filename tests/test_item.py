@@ -2,16 +2,22 @@
 from src.item import Item
 
 item = Item('namenamename', 200.0, 2)
+item2 = Item('name', 100.0, 1)
 pay_rate = 0.85
 
 short_name = "короткое"
 long_name = "длинноеимяяяя"
 
-item.name = short_name
-assert item.name == short_name
 
-item.name = long_name
-assert item.name == long_name[:10]
+def test_name_short():
+    item.name = short_name
+    assert item.name == short_name
+
+
+def test_long_name():
+    item.name = long_name
+    assert item.name == long_name[:10]
+
 
 def test_calculate_total_price():
     assert item.calculate_total_price() == 400
@@ -29,5 +35,10 @@ def test_string_to_number():
 def test__repr__():
     assert repr(item) == "Item('длинноеимя', 200.0, 2)"
 
+
 def test__str__():
     assert str(item) == 'длинноеимя'
+
+
+def test__add__():
+    assert item.quantity + item2.quantity == 3
