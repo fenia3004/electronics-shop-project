@@ -93,6 +93,8 @@ class Item:
                     cls(name, price, quantity)
                     if len(row) != 3 or "name" not in row or "price" not in row or "quantity" not in row:
                         raise InstantiateCSVError(f'Файл item.csv поврежден')
+                    else:
+                        return cls
 
 
     @staticmethod
