@@ -80,22 +80,19 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls):
         """Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_"""
-        try:
+        if not os.path.exists('items.csv'):
+            raise FileNotFoundError(f'Отсутствует файл item.csv')
+        else:
             with cls.DATA_DIR.open(newline='') as csvfile:
                 reader = csv.DictReader(csvfile)
                 cls.all.clear()
-                try:
-                    for row in reader:
-                        name = row['name']
-                        price = row['price']
-                        quantity = row['quantity']
-                        cls(name, price, quantity)
-                except KeyError:
-                    raise InstantiateCSVError(f'Файл item.csv поврежден')
-        except FileNotFoundError:
-            raise FileNotFoundError(f'Отсутствует файл item.csv')
-        else:
-            return cls
+                for row in reader:
+                    name = row['name']
+                    price = row['price']
+                    quantity = row['quantity']
+                    cls(name, price, quantity)
+                    if len(row) != 3 or "name" not in row or "price" not in row or "quantity" not in row:
+                        raise InstantiateCSVError(f'Файл item.csv поврежден')
 
 
     @staticmethod
