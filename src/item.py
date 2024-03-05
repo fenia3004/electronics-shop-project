@@ -13,7 +13,7 @@ class Item:
     """
     pay_rate = 1.0
     all = []
-    DATA_DIR = Path(__file__).parent.joinpath('items.csv')
+    # DATA_DIR = Path(__file__).parent.joinpath('items.csv')
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -78,22 +78,22 @@ class Item:
         self.__name = name
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path='items.csv'):
         """Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_"""
-        if not os.path.exists('items.csv'):
+        if not os.path.exists(path):
             raise FileNotFoundError(f'Отсутствует файл item.csv')
         else:
             with cls.DATA_DIR.open(newline='') as csvfile:
                 reader = csv.DictReader(csvfile)
                 cls.all.clear()
                 for row in reader:
-                    name = row['name']
-                    price = row['price']
-                    quantity = row['quantity']
-                    cls(name, price, quantity)
                     if len(row) != 3 or "name" not in row or "price" not in row or "quantity" not in row:
                         raise InstantiateCSVError(f'Файл item.csv поврежден')
                     else:
+                        name = row['name']
+                        price = row['price']
+                        quantity = row['quantity']
+                        cls(name, price, quantity)
                         return cls
 
 
